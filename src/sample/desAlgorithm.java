@@ -143,6 +143,30 @@ public class desAlgorithm {
         }
         return result;
     }
+    /**
+     *metoda potrzebna do zamiany liczby szesnastkowej(string) na binarna (tablica intów)
+     * @param hex liczba szesnastkowa
+     * @return liczba binarna w postaci tablicy intów
+     */
+    private static int[] hexToBinary(String hex) {
+        int[] result = new int[hex.length() * 4];
+        for (int i = 0; i < hex.length(); i++) {
+
+            String s = Integer.toBinaryString(Integer.parseInt(hex.charAt(i) + "", 16)); //zamiana pojedynczych cyfr na binarny
+
+            while (s.length() < 4) {
+                s = "0" + s; //dopełnienie do 4 bitów
+            }
+            for (int j = 0; j < 4; j++) {
+                result[(4 * i) + j] = Integer.parseInt(s.charAt(j) + "");//zapisywanie bitów do tablicy
+            }
+
+        }
+        return result;
+
+
+    }
+
 
 
 }
