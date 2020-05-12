@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+    <columnConstraints>
+        <ColumnConstraints />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints />
+    </rowConstraints>
+    <children>
+        <AnchorPane prefHeight="377.0" prefWidth="668.0">
+            <children>
+                <Button fx:id="end_button" layoutX="305.0" layoutY="318.0" mnemonicParsing="false" onAction="#endButtonClicked" text="Zakończ" />
+                <Label fx:id="result_label" layoutX="46.0" layoutY="246.0" prefHeight="17.0" prefWidth="54.0" text="  Wynik:" />
+            <Button fx:id="randomButton" layoutX="444.0" layoutY="76.0" mnemonicParsing="false" onAction="#randomButtonPressed" prefHeight="25.0" prefWidth="65.0" text="Losowo" />
+            <Label fx:id="warning" layoutX="214.0" layoutY="14.0" prefHeight="17.0" prefWidth="303.0" />
+            <HBox fx:id="HBox" layoutY="121.0" prefHeight="17.0" prefWidth="668.0" spacing="15.0">
+               <children>
+                        <RadioButton fx:id="radio_railfence" mnemonicParsing="false" text="Rail Fence" />
+                        <RadioButton fx:id="radio_macierzeA" mnemonicParsing="false" text="Macierze A" />
+                        <RadioButton fx:id="radio_macierzeB" mnemonicParsing="false" text="Macierze B" />
+                  <RadioButton fx:id="radio_macierzeC" mnemonicParsing="false" text="Macierze C" />
+                  <RadioButton fx:id="cezar" mnemonicParsing="false" text="Szyfr Cezara" />
+                  <RadioButton fx:id="radio_vigener" mnemonicParsing="false" text="Szyfrowanie Vigener'a" />
+               </children>
+               <padding>
+                  <Insets left="25.0" right="20.0" />
+               </padding>
+            </HBox>
+            <HBox layoutX="260.0" layoutY="164.0" prefHeight="25.0" prefWidth="149.0" spacing="10.0">
+               <children>
+                      <Button mnemonicParsing="false" onAction="#szyfrujButtonClicked" prefHeight="25.0" prefWidth="65.0" text="Szyfruj" />
+                      <Button mnemonicParsing="false" onAction="#deszyfrujButtonClicked" text="Deszyfruj" />
+               </children>
+            </HBox>
+            <HBox layoutX="194.0" layoutY="43.0" prefHeight="66.0" prefWidth="248.0">
+               <children>
+                  <HBox prefHeight="64.0" prefWidth="254.0">
+                     <children>
+                        <VBox prefHeight="200.0" prefWidth="100.0" spacing="8.0">
+                           <children>
+                                  <Label fx:id="klucz_label" prefHeight="25.0" prefWidth="101.0" text="Klucz">
+                                 <VBox.margin>
+                                    <Insets left="60.0" />
+                                 </VBox.margin>
+                              </Label>
+                                  <Label fx:id="slowo_label" prefHeight="25.0" prefWidth="36.0" text="Słowo">
+                                 <VBox.margin>
+                                    <Insets left="60.0" />
+                                 </VBox.margin>
+                              </Label>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="85.0" prefWidth="136.0" spacing="8.0">
+                           <children>
+                                  <TextField fx:id="klucz_tf" />
+                                  <TextField fx:id="slowo_tf" prefHeight="25.0" prefWidth="92.0" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+            <TextField fx:id="result3_tf" alignment="TOP_LEFT" editable="false" layoutX="104.0" layoutY="242.0" prefHeight="66.0" prefWidth="492.0" />
+            </children>
+        </AnchorPane>
+    </children>
+</GridPane>
