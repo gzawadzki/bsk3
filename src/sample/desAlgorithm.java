@@ -1,6 +1,12 @@
 package sample;
 
+import java.util.Arrays;
+import static sample.desTables.*;
+
 public class desAlgorithm {
+
+    private int[] keyMoves = {1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1};
+    private int[][] subkeys = new int[16][48];
 
     //przeprowadzenie operacji xor na tablicy
     private int[] xorTables(int[] first, int[] second) {
@@ -52,4 +58,74 @@ public class desAlgorithm {
         }
         return answer;
     }
+
+
+    /**
+     * Dwie poniższe metody dzielą dany blok bitów na dwa mniejsze odpowienio na lewą lub prawą część
+     * @param block
+     * @return
+     */
+    private int[] getLeftPart(int[] block) {
+        return Arrays.copyOfRange(block, 0, block.length / 2);
+    }
+
+    private int[] getRightPart(int[] block) {
+        return Arrays.copyOfRange(block, block.length / 2, block.length);
+    }
+
+
+    /**
+     * Metoda która dopełnia do 4 bitów liczby zamienione na bity wzięte z tabel Sn. Potrzebne jest to do przekształcania kluczy
+     * @param bit ciąg bitów
+     * @return
+     */
+    private StringBuilder completeTo4(String bit) {
+        StringBuilder result = new StringBuilder();
+        if (bit.length() < 4) {
+            for (int i = bit.length(); i < 4; i++) {
+                result.append("0");
+            }
+        }
+        result.append(bit);
+
+
+        return result;
+    }
+
+    /**
+     * Metoda która przekształca klucz do postaci końcowej, zmiejsza ilość bitów oraz jest on permutowany
+     * @param key -> klucz
+     */
+    private void prepareSubkeys(int[] key) {
+        for (int i = 1; i <= 16; i++) {
+
+            int[] tmpLeft = new int[28];
+            int[] tmpRight = new int[28];
+
+            System.arraycopy(key, 0, tmpLeft, 0, 28);
+            System.arraycopy(key, 28, tmpRight, 0, 28);
+
+            int[] movedLeft = moveKeyBits(tmpLeft, keyMoves[i - 1]);
+            int[] movedRight = moveKeyBits(tmpRight, keyMoves[i - 1]);
+
+
+            int[] tmpSubkey = new int[56];
+            System.arraycopy(movedLeft, 0, tmpSubkey, 0, 28);
+            System.arraycopy(movedRight, 0, tmpSubkey, 28, 28);
+
+            int[] finalSubkey = new int[48];
+            finalSubkey = makePermutation(tmpSubkey, keyPC_2, 48);
+
+            for (int j = 0; j < 48; j++) {
+                subkeys[i - 1][j] = finalSubkey[j];
+
+            }
+
+            System.arraycopy(tmpSubkey, 0, key, 0, 56);
+
+
+        }
+    }
+
+
 }
