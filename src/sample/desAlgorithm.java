@@ -292,6 +292,52 @@ public class desAlgorithm {
 
 
     }
+    /**
+     * metoda dokonująca transformacji 6 bitowego bloku danych przy pomocy bloków od S1 do S8
+     * @param block
+     * @return blok po permutacji
+     */
+    private int[] transformBySBlocks(int[] block) {
+        int[] result = new int[32];
+
+        for (int i = 0; i < 8; i++) {
+            int[] tmpBlock = new int[6];
+
+            System.arraycopy(block, i * 6, tmpBlock, 0, 6);
+            // ustalanie wuersza
+            StringBuilder row = new StringBuilder();
+            row.append(tmpBlock[0]);
+            row.append(tmpBlock[5]);
+            //ustalanie kolumny
+            StringBuilder column = new StringBuilder();
+            column.append(tmpBlock[1]);
+            column.append(tmpBlock[2]);
+            column.append(tmpBlock[3]);
+            column.append(tmpBlock[4]);
+
+            //zamiana indeksów na dziesietny
+            int rowDec = Integer.parseInt(String.valueOf(row), 2);
+            int columnDec = Integer.parseInt(String.valueOf(column), 2);
+
+
+            String bit = Integer.toBinaryString(SBlock[rowDec + 4 * i][columnDec]);  // pobranie bitu z SBLock
+
+            StringBuilder binaryBit = completeTo4(bit); //dopełnienie
+
+
+            for (int j = 0; j < 4; j++) {
+                result[j + 4 * i] = Character.getNumericValue(binaryBit.charAt(j));
+            }
+
+
+        }
+        System.arraycopy(makePermutation(result, PBlockP, 32), 0, result, 0, 32);//permutacja
+
+
+        return result;
+
+
+    }
 
 
 
