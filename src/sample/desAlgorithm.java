@@ -75,7 +75,7 @@ public class desAlgorithm {
 
 
     /**
-     * Metoda która dopełnia do 4 bitów liczby zamienione na bity wzięte z tabel Sn. Potrzebne jest to do przekształcania kluczy
+     * Metoda która dopełnia do 4 bitów liczby zamienione na bity wzięte z tabel Sn.
      * @param bit ciąg bitów
      * @return
      */
