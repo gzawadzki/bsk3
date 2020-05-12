@@ -2,6 +2,7 @@ package sample;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
 import static sample.desTables.*;
 
 public class desAlgorithm {
@@ -168,9 +169,9 @@ public class desAlgorithm {
     }
 
     /**
-     przesunięcia w lewo, każdy bit jest przesuwany w lewo,
-     najstarszy bit (pierwszy od lewej) przesuwany jest
-     na ostatnie miejsce(skrajnie po prawej)
+     * przesunięcia w lewo, każdy bit jest przesuwany w lewo,
+     * najstarszy bit (pierwszy od lewej) przesuwany jest
+     * na ostatnie miejsce(skrajnie po prawej)
      */
     private int[] moveKeyBits(int[] key, int times) {
         int answer[] = new int[key.length];
@@ -188,6 +189,7 @@ public class desAlgorithm {
 
     /**
      * Dwie poniższe metody dzielą dany blok bitów na dwa mniejsze odpowienio na lewą lub prawą część
+     *
      * @param block
      * @return
      */
@@ -201,7 +203,12 @@ public class desAlgorithm {
 
 
     /**
+<<<<<<< Updated upstream
      * Metoda która dopełnia do 4 bitów liczby zamienione na bity wzięte z tabel Sn.
+=======
+     * Metoda która dopełnia do 4 bitów liczby zamienione na bity wzięte z tabel Sn. Potrzebne jest to do przekształcania kluczy
+     *
+>>>>>>> Stashed changes
      * @param bit ciąg bitów
      * @return
      */
@@ -220,6 +227,7 @@ public class desAlgorithm {
 
     /**
      * Metoda która przekształca klucz do postaci końcowej, zmiejsza ilość bitów oraz jest on permutowany
+     *
      * @param key -> klucz
      */
     private void prepareSubkeys(int[] key) {
@@ -252,6 +260,7 @@ public class desAlgorithm {
 
         }
     }
+
     /**
      * metoda potrzebna do wypisania liczby szesnastkowej z tablicy bitów
      * @param bits tablica bitów
@@ -338,6 +347,67 @@ public class desAlgorithm {
 
 
     }
+
+    //algorytm des, pobiera słowo, klucz oraz encode który odpowiada za to czy szyfrujemy czy odszyfrowujemy wiadomość
+    private StringBuilder des(int[] word, int[] key, boolean encode) {
+
+        //inicjująca permutacja
+        int[] data = makePermutation(word, initialP, 64);
+
+        // podzielenie na dwie części- lewą i prawą
+        int[] leftData = getLeftPart(data);
+        int[] rightData = getRightPart(data);
+
+        //key PC-1 permutation
+        key = makePermutation(key, keyPC_1, 56);
+        prepareSubkeys(key);
+
+
+        //Feistel operations
+
+        for (int i = 1; i <= 16; i++) {
+
+            int[] tmpKey = new int[48];
+
+            if (encode)
+                System.arraycopy(subkeys[i - 1], 0, tmpKey, 0, 48);
+            else
+                System.arraycopy(subkeys[16 - i], 0, tmpKey, 0, 48);
+
+            //rozszerzająca permutacja
+            int[] expandedR = new int[48];
+            expandedR = makePermutation(rightData, expandingP, 48);
+            int[] newR = new int[48];
+            System.arraycopy(expandedR, 0, newR, 0, 48);
+
+
+            newR = xorTables(expandedR, tmpKey);
+
+
+            System.arraycopy(transformBySBlocks(newR), 0, newR, 0, 32);
+
+
+            int[] newRightData = xorTables(leftData, newR);
+
+            //zamiana stron
+            leftData = rightData;
+            rightData = newRightData;
+
+
+        }
+
+        //połączenie dwóch części
+        System.arraycopy(rightData, 0, data, 0, 32);
+        System.arraycopy(leftData, 0, data, 32, 32);
+
+
+        data = Arrays.copyOf(makePermutation(data, finalP, 64), 64);
+        return displayBits(data);
+
+
+    }
+
+
 
 
 
