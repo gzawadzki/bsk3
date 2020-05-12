@@ -126,6 +126,23 @@ public class desAlgorithm {
 
         }
     }
+    /**
+     * metoda potrzebna do wypisania liczby szesnastkowej z tablicy bitów
+     * @param bits tablica bitów
+     */
+    private static StringBuilder displayBits(int[] bits) {
+
+        StringBuilder result = new StringBuilder();
+
+        for (int i = 0; i < bits.length; i += 4) {
+            String output = new String();
+            for (int j = 0; j < 4; j++) {
+                output += bits[i + j];   // składanie czteroznakowych liczb binarnych
+            }
+            result.append(Integer.toHexString(Integer.parseInt(output, 2))); //zamiana na 16
+        }
+        return result;
+    }
 
 
 }
