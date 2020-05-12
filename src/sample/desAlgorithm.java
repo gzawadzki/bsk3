@@ -203,12 +203,7 @@ public class desAlgorithm {
 
 
     /**
-<<<<<<< Updated upstream
-     * Metoda która dopełnia do 4 bitów liczby zamienione na bity wzięte z tabel Sn.
-=======
      * Metoda która dopełnia do 4 bitów liczby zamienione na bity wzięte z tabel Sn. Potrzebne jest to do przekształcania kluczy
-     *
->>>>>>> Stashed changes
      * @param bit ciąg bitów
      * @return
      */
@@ -406,7 +401,24 @@ public class desAlgorithm {
 
 
     }
-
+    static String stringToHex(String string) {
+        StringBuilder buf = new StringBuilder(200);
+        for (char ch: string.toCharArray()) {
+            buf.append(String.format("%04x", (int) ch));
+        }
+        return buf.toString();
+    }
+    public static String convertHexToStringValue(String hex) {
+        StringBuilder stringbuilder = new StringBuilder();
+        char[] hexData = hex.toCharArray();
+        for (int count = 0; count < hexData.length - 1; count += 2) {
+            int firstDigit = Character.digit(hexData[count], 16);
+            int lastDigit = Character.digit(hexData[count + 1], 16);
+            int decimal = firstDigit * 16 + lastDigit;
+            stringbuilder.append((char)decimal);
+        }
+        return stringbuilder.toString();
+    }
 
 
 

@@ -4,7 +4,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
@@ -126,7 +125,9 @@ public class Controller implements Initializable {
             }/*Szyfrowanie DES*/ else if(radio_des.equals(selected)){
                 desAlgorithm des = new desAlgorithm();
                 String key = klucz_tf.getText();
-                String word = slowo_tf.getText();
+                String word = desAlgorithm.stringToHex(slowo_tf.getText());
+                String result= des.desCiphering(word,key,true);
+                result3_tf.setText(result);
 
 
             }
@@ -188,6 +189,9 @@ public class Controller implements Initializable {
                 desAlgorithm des = new desAlgorithm();
                 String key = klucz_tf.getText();
                 String s = slowo_tf.getText();
+                String result= des.desCiphering(s,key,false);
+
+                result3_tf.setText(desAlgorithm.convertHexToStringValue(result));
             }
             else {
                 warning.setText("Wybierz metodę deszyfrowania");
