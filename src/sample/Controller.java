@@ -32,6 +32,7 @@ public class Controller implements Initializable {
     public TextField result3_tf;
     public Button end_button;
     public Button randomButton;
+    public RadioButton radio_des;
 
     ToggleGroup toggleGroup = new ToggleGroup();
     ArrayList<String> words;
@@ -43,6 +44,7 @@ public class Controller implements Initializable {
         radio_macierzeB.setToggleGroup(toggleGroup);
         radio_macierzeA.setToggleGroup(toggleGroup);
         radio_macierzeC.setToggleGroup(toggleGroup);
+        radio_des.setToggleGroup(toggleGroup);
         cezar.setToggleGroup(toggleGroup);
         radio_vigener.setToggleGroup(toggleGroup);
 
@@ -121,7 +123,15 @@ public class Controller implements Initializable {
                 String result = vigenere(word, key);
                 result3_tf.setText(result);
 
-            } else {
+            }/*Szyfrowanie DES*/ else if(radio_des.equals(selected)){
+                desAlgorithm des = new desAlgorithm();
+                String key = klucz_tf.getText();
+                String word = slowo_tf.getText();
+
+
+            }
+
+            else {
                 warning.setText("Wybierz metodę szyfrowania");
             }
 
@@ -174,7 +184,12 @@ public class Controller implements Initializable {
                 String key = klucz_tf.getText();
                 String result = desVigenere(word, key);
                 result3_tf.setText(result);
-            } else {
+            }/*Deszyforwanie DES*/ else if(radio_des.equals(selected)){
+                desAlgorithm des = new desAlgorithm();
+                String key = klucz_tf.getText();
+                String s = slowo_tf.getText();
+            }
+            else {
                 warning.setText("Wybierz metodę deszyfrowania");
             }
         }
