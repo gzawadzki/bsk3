@@ -2,6 +2,20 @@ package sample;
 
 public class desAlgorithm {
 
+    //przeprowadzenie operacji xor na tablicy
+    private int[] xorTables(int[] first, int[] second) {
+        int[] result = new int[first.length];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = xor(first[i], second[i]);
+        }
+
+        return result;
+    }
+
+    // wykonanie operacji xor (w jezyku java za operacje xor odpowiada ^)
+    private int xor(int a, int b) {
+        return a ^ b;
+    }
 
 
     /**
