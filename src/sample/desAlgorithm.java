@@ -1,5 +1,6 @@
 package sample;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import static sample.desTables.*;
 
@@ -7,6 +8,131 @@ public class desAlgorithm {
 
     private int[] keyMoves = {1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1};
     private int[][] subkeys = new int[16][48];
+    public String desCiphering(String s, String k, boolean encode) {
+
+        StringBuilder answer = new StringBuilder(); //sluzy do budowania zaszyfrowanej odpowiedzi
+
+        //uzupełnienie i podzial do pelnych blokow
+        ArrayList<String> blocks = prepareWord(s);
+
+        int[] key = hexToBinary(k);
+
+        for (String block : blocks) {
+            int[] word = hexToBinary(block);
+
+            answer.append(des(word, key, encode)); //wywolujemy metode StringBuildera(append) i za pomoca des budujemy zaszyfrowaną odpowiedz
+
+        }
+
+        //usuwanie nieznaczących bitow
+        if (!encode) {
+            int bitsToDelete = hexToDec(answer.charAt(answer.length() - 1));
+            answer.delete(answer.length() - bitsToDelete, answer.length());
+        }
+
+        return answer.toString();
+
+    }
+
+    //z szesnastkowych na dziesiętne
+    private int hexToDec(char c) {
+
+        int result;
+        switch (c) {
+            case 'a':
+                result = 10;
+                break;
+            case 'b':
+                result = 11;
+                break;
+            case 'c':
+                result = 12;
+                break;
+            case 'd':
+                result = 13;
+                break;
+            case 'e':
+                result = 14;
+                break;
+            case 'f':
+                result = 15;
+                break;
+            default:
+                result = Integer.parseInt(String.valueOf(c));
+                break;
+
+        }
+        return result;
+
+    }
+
+    private ArrayList<String> prepareWord(String word) { //przygotowanie uzyskanych danych
+
+        int remain = word.length();
+        int iter = (int) Math.ceil(word.length() / 16.0); //dzielimy uzyskane słowo na 16-bitowe bloki (format hex)
+        ArrayList<String> blocks = new ArrayList<>();
+
+        for (int i = 0; i < iter; i++) {
+            StringBuilder fullBlock = new StringBuilder();
+
+            if (remain > 16) { //sprawdzenie czy slowo ma ponad 16 znakow
+                for (int x = 0; x < 16; x++) {
+                    fullBlock.append(word.charAt(i * 16 + x));
+                }
+
+                blocks.add(fullBlock.toString());
+            } else {
+                for (int x = 0; x < remain; x++) {
+                    fullBlock.append(word.charAt(i * 16 + x));
+                }
+                //uzupełnienie zerami (do przedostatniego bitu) w przypadku gdy ktorys blok jest krotszy
+                for (int j = remain; j < 15; j++) {
+                    fullBlock.append(0);
+
+                }
+
+                //wstawienie na ostatni bit liczby oznaczającej ilosc uzupelnionych miejsc
+                fullBlock.append(remainToHex(16-remain));
+
+                blocks.add(fullBlock.toString());
+            }
+
+            remain -= 16;
+        }
+        return blocks;
+
+    }
+
+    //zamiana na szesnastkowe
+    private char remainToHex(int remain) {
+        char result = String.valueOf(0).charAt(0);
+        if (remain < 10) {
+            result = String.valueOf(remain).charAt(0);
+        } else {
+            switch (remain) {
+                case 10:
+                    result = 'a';
+                    break;
+                case 11:
+                    result = 'b';
+                    break;
+                case 12:
+                    result = 'c';
+                    break;
+                case 13:
+                    result = 'd';
+                    break;
+                case 14:
+                    result = 'e';
+                    break;
+                case 15:
+                    result = 'f';
+                    break;
+            }
+
+        }
+        return result;
+    }
 
     //przeprowadzenie operacji xor na tablicy
     private int[] xorTables(int[] first, int[] second) {
